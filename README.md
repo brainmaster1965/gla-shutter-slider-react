@@ -1,4 +1,6 @@
-# Gla Shutter Hero Slider – React `v2.3.0`
+# Gla Shutter Hero Slider - React<span style="background-color: #f1683a; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; vertical-align: middle;">v2.3.0</span>
+
+![Gla Shutter Hero Slider Preview](preview.png)
 
 A fullscreen hero slider with a cinematic **shutter reveal** (CSS `clip-path`) and scroll **parallax**.
 React port of the vanilla "Gla Shutter Hero Slider" – **no third-party libraries** besides React itself (no GSAP, no jQuery, no Tailwind).
@@ -9,6 +11,13 @@ React port of the vanilla "Gla Shutter Hero Slider" – **no third-party librari
 - JSON-driven content, typography, 9 alignment positions and button styling per slide.
 - Accessible: labeled controls, hidden slides are `inert`, respects `prefers-reduced-motion`.
 - Plain JSX components, one single type definition file: `src/types/slider.ts`.
+
+---
+
+## 🚀 Live Demo
+
+Check out the interactive live demo deployed on Vercel:  
+👉 **[View Live Demo](https://https://gla-shutter-slider-react.vercel.app)**
 
 ---
 
@@ -63,16 +72,16 @@ src/
 
 ## ⚙️ `<HeroSlider />` Props
 
-| Prop              | Type        | Default | Description                                                        |
-| :---------------- | :---------- | :------ | :----------------------------------------------------------------- |
-| `slides`          | `SlideData[]` | –     | Slides to render (required).                                       |
-| `autoplay`        | `boolean`   | `true`  | Automatic slide change.                                            |
-| `interval`        | `number`    | `7000`  | Autoplay interval in ms.                                           |
-| `stopOnHover`     | `boolean`   | `true`  | Pauses autoplay while the mouse is over the slider.                |
-| `hideProgress`    | `boolean`   | `false` | Hides the top progress bar.                                        |
-| `hideNavigation`  | `boolean`   | `false` | Hides the prev/next arrows.                                        |
-| `hidePagination`  | `boolean`   | `false` | Hides the pagination dots.                                         |
-| `shutterDuration` | `number`    | `1500`  | Duration of the shutter in ms (single source: JS timer + CSS).     |
+| Prop              | Type          | Default | Description                                                    |
+| :---------------- | :------------ | :------ | :------------------------------------------------------------- |
+| `slides`          | `SlideData[]` | –       | Slides to render (required).                                   |
+| `autoplay`        | `boolean`     | `true`  | Automatic slide change.                                        |
+| `interval`        | `number`      | `7000`  | Autoplay interval in ms.                                       |
+| `stopOnHover`     | `boolean`     | `true`  | Pauses autoplay while the mouse is over the slider.            |
+| `hideProgress`    | `boolean`     | `false` | Hides the top progress bar.                                    |
+| `hideNavigation`  | `boolean`     | `false` | Hides the prev/next arrows.                                    |
+| `hidePagination`  | `boolean`     | `false` | Hides the pagination dots.                                     |
+| `shutterDuration` | `number`      | `1500`  | Duration of the shutter in ms (single source: JS timer + CSS). |
 
 Slide fields (`SlideData`) are identical to the vanilla `slides.json`: `showContent`, `alignment`
 (`top|center|bottom` + `-left|center|right`), `imageUrl`, author/title/topic texts with color, size and font family,
