@@ -1,4 +1,4 @@
-# Gla Shutter Hero Slider - React<span style="background-color: #f1683a; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; vertical-align: middle;">v2.3.0</span>
+# Gla Shutter Hero Slider - React <span style="background-color: #f1683a; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; vertical-align: middle;">v2.3.0</span>
 
 ![Gla Shutter Hero Slider Preview](preview.png)
 
@@ -17,7 +17,7 @@ React port of the vanilla "Gla Shutter Hero Slider" – **no third-party librari
 ## 🚀 Live Demo
 
 Check out the interactive live demo deployed on Vercel:  
-👉 **[View Live Demo](https://https://gla-shutter-slider-react.vercel.app)**
+👉 **[View Live Demo](https://gla-shutter-slider-react.vercel.app)**
 
 ---
 
