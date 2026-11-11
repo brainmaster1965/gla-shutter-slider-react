@@ -1,0 +1,122 @@
+/* Demo-Seite (nicht Teil der Slider-Komponente) */
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #0f0f11;
+	color: #fff;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.demo-header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 80px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 50px;
+	box-sizing: border-box;
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 0.7) 0%,
+		rgba(0, 0, 0, 0) 100%
+	);
+	z-index: 1000;
+}
+
+.demo-brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	text-decoration: none;
+}
+.demo-brand img {
+	height: 32px;
+	width: auto;
+	object-fit: contain;
+}
+.demo-brand span {
+	font-weight: bold;
+	font-size: 1.2rem;
+	letter-spacing: 1px;
+	color: #f1683a;
+}
+
+.demo-nav {
+	display: flex;
+	gap: 30px;
+	font-size: 1rem;
+	font-weight: 500;
+	letter-spacing: 1px;
+}
+
+.demo-nav a {
+	color: #ddd;
+	text-decoration: none;
+	cursor: pointer;
+	transition: color 0.3s;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.demo-nav a:hover {
+	color: #fff;
+}
+
+.demo-status {
+	display: grid;
+	place-items: center;
+	height: 100vh;
+	color: #a1a1aa;
+}
+
+.demo-next-section {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #121216;
+	text-align: center;
+	padding: 0 20px;
+	border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.demo-next-section h2 {
+	font-size: 2.5rem;
+	margin-bottom: 15px;
+}
+.demo-next-section p {
+	color: #a1a1aa;
+	font-size: 1.1rem;
+	max-width: 600px;
+}
+
+.demo-footer {
+	height: 100px;
+	background: #050505;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.85rem;
+	color: #777;
+	border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.demo-footer .footer-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: #fff;
+	font-weight: 600;
+	font-size: 1rem;
+}
+.demo-footer .footer-brand img {
+	height: 28px;
+	width: auto;
+	object-fit: contain;
+}

@@ -1,0 +1,438 @@
+/**
+ * Shutter Hero Slider – React-Port von "Gla Shutter Hero Slider" v2.3.0
+ * Shutter-Effekt per clip-path + Scroll-Parallax. Keine externen Libraries.
+ */
+
+/* ---------- Keyframes ---------- */
+
+@keyframes showContent {
+	to {
+		opacity: 1;
+		transform: translateY(0);
+		filter: blur(0);
+	}
+}
+
+@keyframes runningTime {
+	from {
+		width: 100%;
+	}
+	to {
+		width: 0;
+	}
+}
+
+/* ---------- Layout ---------- */
+
+.shutter-slider {
+	--shutter-duration: 1500ms;
+
+	position: relative;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	height: 100svh; /* mobile: ignoriert die ein-/ausfahrende Adressleiste */
+	width: 100%; /* 100vw würde die Scrollbar mitzählen -> horizontales Scrollen */
+	margin: 0;
+	overflow: hidden;
+	background-color: #000;
+	user-select: none;
+	-webkit-user-select: none;
+	/* Vertikales Scrollen bleibt, horizontale Swipes gehen an den Slider */
+	touch-action: pan-y;
+}
+
+.shutter-slider .slide-list {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+/* ---------- Slide-Ebenen ----------
+   hidden:  visibility hidden, z-index 1
+   target:  liegt unten (2), wird freigegeben
+   current: liegt oben (3)
+   leaving: current während des Shutters (4), wird weggeclippt */
+
+.shutter-slider .slide-item {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	visibility: hidden;
+}
+
+.shutter-slider .slide-item.is-target {
+	visibility: visible;
+	z-index: 2;
+}
+
+.shutter-slider .slide-item.is-current {
+	visibility: visible;
+	z-index: 3;
+}
+
+.shutter-slider .slide-item.is-leaving {
+	z-index: 4;
+}
+
+.shutter-slider .slide-wrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	clip-path: inset(0 0 0 0);
+}
+
+/* Next: rechte Kante wandert nach links -> neues Bild wird von rechts nach links freigegeben */
+.shutter-slider .slide-item.is-leaving.leaving-next .slide-wrapper {
+	transition: clip-path var(--shutter-duration) linear;
+	clip-path: inset(0 100% 0 0);
+}
+
+/* Prev: linke Kante wandert nach rechts -> neues Bild wird von links nach rechts freigegeben */
+.shutter-slider .slide-item.is-leaving.leaving-prev .slide-wrapper {
+	transition: clip-path var(--shutter-duration) linear;
+	clip-path: inset(0 0 0 100%);
+}
+
+/* ---------- Bild + Parallax ---------- */
+
+.shutter-slider .slide-item img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 150vh;
+	object-fit: cover;
+	opacity: 0;
+	will-change: transform, opacity;
+	transition:
+		transform 0.1s ease-out,
+		opacity 0.6s ease-in;
+	transform: translateY(var(--parallax-offset, 0));
+	-webkit-user-drag: none;
+}
+
+.shutter-slider.is-ready .slide-item img {
+	opacity: 1;
+}
+
+@media (max-width: 1024px) {
+	.shutter-slider .slide-item img {
+		height: 120vh;
+	}
+}
+
+@media (max-width: 767px) {
+	.shutter-slider .slide-item img {
+		height: 100vh;
+		transform: translateY(0) !important;
+		will-change: auto;
+	}
+}
+
+/* ---------- Content-Container & Ausrichtung ---------- */
+
+.shutter-slider .slide-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 1600px;
+	padding: 0 70px;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #fff;
+	text-shadow: 0 5px 10px #0004;
+}
+
+@media (max-width: 767px) {
+	.shutter-slider .slide-content {
+		padding: 0 20px;
+	}
+}
+
+/* Horizontal */
+.shutter-slider .slide-content.align-top-left,
+.shutter-slider .slide-content.align-center-left,
+.shutter-slider .slide-content.align-bottom-left {
+	text-align: left;
+	align-items: flex-start;
+}
+.shutter-slider .slide-content.align-top-left .slide-buttons,
+.shutter-slider .slide-content.align-center-left .slide-buttons,
+.shutter-slider .slide-content.align-bottom-left .slide-buttons {
+	justify-content: flex-start;
+}
+
+.shutter-slider .slide-content.align-top-center,
+.shutter-slider .slide-content.align-center-center,
+.shutter-slider .slide-content.align-bottom-center {
+	text-align: center;
+	align-items: center;
+}
+.shutter-slider .slide-content.align-top-center .slide-buttons,
+.shutter-slider .slide-content.align-center-center .slide-buttons,
+.shutter-slider .slide-content.align-bottom-center .slide-buttons {
+	justify-content: center;
+}
+
+.shutter-slider .slide-content.align-top-right,
+.shutter-slider .slide-content.align-center-right,
+.shutter-slider .slide-content.align-bottom-right {
+	text-align: right;
+	align-items: flex-end;
+}
+.shutter-slider .slide-content.align-top-right .slide-buttons,
+.shutter-slider .slide-content.align-center-right .slide-buttons,
+.shutter-slider .slide-content.align-bottom-right .slide-buttons {
+	justify-content: flex-end;
+}
+
+/* Vertikal */
+.shutter-slider .slide-content.align-top-left,
+.shutter-slider .slide-content.align-top-center,
+.shutter-slider .slide-content.align-top-right {
+	top: 100px;
+	bottom: auto;
+	transform: translateX(-50%);
+}
+
+.shutter-slider .slide-content.align-center-left,
+.shutter-slider .slide-content.align-center-center,
+.shutter-slider .slide-content.align-center-right {
+	top: 50%;
+	bottom: auto;
+	transform: translate(-50%, -50%);
+}
+
+.shutter-slider .slide-content.align-bottom-left,
+.shutter-slider .slide-content.align-bottom-center,
+.shutter-slider .slide-content.align-bottom-right {
+	top: auto;
+	bottom: 80px;
+	transform: translateX(-50%);
+}
+
+/* ---------- Typografie ---------- */
+
+.shutter-slider .slide-author {
+	font-weight: bold;
+	letter-spacing: 3px;
+	margin-bottom: 10px;
+	color: var(--slider-author-color);
+	font-size: var(--slider-author-size);
+	font-family: var(--slider-author-font, sans-serif);
+}
+
+.shutter-slider .slide-title {
+	margin: 10px 0;
+	line-height: 1.1;
+	color: var(--slider-title-color);
+	font-size: var(--slider-title-size);
+	font-family: var(--slider-title-font, sans-serif);
+}
+
+.shutter-slider .slide-topic {
+	margin: 10px 0;
+	line-height: 1.1;
+	color: var(--slider-topic-color);
+	font-size: var(--slider-topic-size);
+	font-family: var(--slider-topic-font, sans-serif);
+}
+
+.shutter-slider .slide-description {
+	margin-top: 10px;
+}
+
+/* ---------- Buttons ---------- */
+
+.shutter-slider .slide-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	margin-top: 25px;
+	width: 100%;
+}
+
+.shutter-slider .slide-buttons a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 45px;
+	padding: 4px 16px;
+	letter-spacing: 2px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	text-shadow: none;
+}
+
+.shutter-slider .slide-buttons .button-1 {
+	color: var(--slider-button1-textcolor);
+	background-color: var(--slider-button1-color);
+	border-radius: var(--slider-button1-borderradius);
+}
+.shutter-slider .slide-buttons .button-1.has-outline {
+	border: var(--slider-button1-outlinewidth, 0px) solid
+		var(--slider-button1-outlinecolor, transparent);
+}
+.shutter-slider .slide-buttons .button-1:hover {
+	background-color: var(--slider-button1-hovercolor);
+	color: var(--slider-button1-hovertextcolor);
+}
+
+.shutter-slider .slide-buttons .button-2 {
+	color: var(--slider-button2-textcolor);
+	background-color: var(--slider-button2-color);
+	border-radius: var(--slider-button2-borderradius);
+}
+.shutter-slider .slide-buttons .button-2.has-outline {
+	border: var(--slider-button2-outlinewidth, 0px) solid
+		var(--slider-button2-outlinecolor, transparent);
+}
+.shutter-slider .slide-buttons .button-2:hover {
+	background-color: var(--slider-button2-hovercolor);
+	color: var(--slider-button2-hovertextcolor);
+}
+
+/* ---------- Pfeile ---------- */
+
+.shutter-slider .slide-arrows {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	transform: translateY(-50%);
+	z-index: 100;
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	padding: 0 20px;
+	pointer-events: none;
+}
+
+.shutter-slider .slide-arrows button {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: rgba(238, 238, 238, 0.27);
+	border: none;
+	color: #fff;
+	font-family: monospace;
+	font-weight: bold;
+	transition: 0.5s;
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.shutter-slider .slide-arrows button:hover {
+	background-color: #fff;
+	color: #000;
+}
+
+/* ---------- Pagination ---------- */
+
+.shutter-slider .slide-pagination {
+	position: absolute;
+	bottom: 50px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 100;
+	display: flex;
+	gap: 8px;
+}
+
+.shutter-slider .slide-pagination button {
+	width: 14px;
+	height: 14px;
+	padding: 0;
+	border: none;
+	border-radius: 2px;
+	background-color: rgba(238, 238, 238, 0.27);
+	cursor: pointer;
+	transition:
+		background-color 0.3s,
+		transform 0.3s;
+}
+
+.shutter-slider .slide-pagination button:hover {
+	background-color: #fff;
+	transform: scale(1.1);
+}
+
+.shutter-slider .slide-pagination button.active {
+	background-color: #f1683a;
+	transform: scale(1.1);
+}
+
+/* Während der Animation sind Pfeile und Dots gesperrt */
+.shutter-slider.is-animating .slide-arrows button,
+.shutter-slider.is-animating .slide-pagination button {
+	pointer-events: none;
+}
+
+/* ---------- Content-Animation ---------- */
+
+.shutter-slider .slide-content > * {
+	transform: translateY(50px);
+	filter: blur(20px);
+	opacity: 0;
+}
+
+.shutter-slider .slide-item.is-current .slide-content > * {
+	animation: showContent 0.5s linear 1 forwards;
+}
+
+.shutter-slider .slide-item.is-current .slide-content .slide-author {
+	animation-delay: 0.6s;
+}
+.shutter-slider .slide-item.is-current .slide-content .slide-title {
+	animation-delay: 0.8s;
+}
+.shutter-slider .slide-item.is-current .slide-content .slide-topic {
+	animation-delay: 1s;
+}
+.shutter-slider .slide-item.is-current .slide-content .slide-description {
+	animation-delay: 1.2s;
+}
+.shutter-slider .slide-item.is-current .slide-content .slide-buttons {
+	animation-delay: 1.4s;
+}
+
+/* ---------- Fortschrittsbalken ---------- */
+
+.shutter-slider .slide-time {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 0%;
+	height: 3px;
+	background-color: #f1683a;
+}
+
+.shutter-slider.next .slide-time,
+.shutter-slider.prev .slide-time {
+	animation: runningTime var(--shutter-duration) linear 1 forwards;
+}
+
+/* OS-Einstellung "Bewegung reduzieren": kein Shutter-Delay, keine Parallax-/Text-Animation */
+@media (prefers-reduced-motion: reduce) {
+	.shutter-slider .slide-item img {
+		transform: none !important;
+		transition: none;
+	}
+	.shutter-slider .slide-item.is-current .slide-content > * {
+		animation: none !important;
+		transform: none !important;
+		filter: none !important;
+		opacity: 1 !important;
+	}
+}
