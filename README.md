@@ -1,4 +1,4 @@
-# Gla Shutter Hero Slider - React <span style="background-color: #f1683a; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; vertical-align: middle;">v2.3.0</span>
+# <span style="display: inline-block; vertical-align: middle;"><img src="https://img.shields.io/badge/v2.3.0-f1683a?style=for-the-badge&logoColor=white" alt="v2.3.0"></span> Gla Shutter Hero Slider - React
 
 ![Gla Shutter Hero Slider Preview](preview.png)
 
